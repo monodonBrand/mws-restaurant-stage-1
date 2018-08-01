@@ -1,4 +1,4 @@
-let restaurants,
+{let restaurants,
   neighborhoods,
   cuisines
 var newMap
@@ -159,10 +159,10 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurantLarge(restaurant);
+  image.className = 'restaurant-images';
   image.srcset = DBHelper.imageSmallSrcset(restaurant);
-  image.sizes = "(max-width: 450px) 400px, (max-width: 670px) 800px, (min-width: 671px) 400px"
+  image.sizes = "(max-width: 450px) 90vw, (min-width: 665px) 50vw, (min-width: 985px) 20vw";
+  image.src = DBHelper.imageUrlForRestaurantLarge(restaurant);
   li.append(image);
 
   const infoContainer = document.createElement('div');
@@ -214,3 +214,4 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 } */
+}

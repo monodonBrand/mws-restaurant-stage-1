@@ -1,5 +1,6 @@
-let restaurant;
+{let restaurant;
 var newMap;
+const map = document.querySelector("#map-container");
 
 /**
  * Initialize map as soon as the page is loaded.
@@ -88,7 +89,9 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.src = DBHelper.imageUrlForRestaurantLarge(restaurant);
+  image.srcset = DBHelper.imageSmallSrcset(restaurant);
+  image.sizes = "(max-width: 990px) 90vw, (min-width: 665px) 50vw";
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -148,7 +151,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
-  const name = document.createElement('p');
+  const name = document.createElement('h4');
   name.innerHTML = review.name;
   li.appendChild(name);
 
@@ -191,4 +194,12 @@ getParameterByName = (name, url) => {
   if (!results[2])
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+/** Turn map container to sticky after scrolling the header offscreen **/
+window.addEventListener("scroll", stickyMap => {
+  const header = document.querySelector("header");
+  const scrollHeight = header.getBoundingClientRect().height;
+  window.pageYOffset > scrollHeight && window.innerWidth > 990 ? map.classList.add("sticky") :  map.classList.remove("sticky")
+})
 }
