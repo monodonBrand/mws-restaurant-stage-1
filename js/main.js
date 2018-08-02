@@ -159,7 +159,7 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement("li");
 
   const image = document.createElement("img");
-  image.alt = "";
+  image.alt = `image of ${restaurant.name} restaurant`;
   image.className = "restaurant-images";
   image.srcset = DBHelper.imageSmallSrcset(restaurant);
   image.sizes = "(max-width: 450px) 90vw, (min-width: 665px) 50vw, (min-width: 985px) 20vw";
