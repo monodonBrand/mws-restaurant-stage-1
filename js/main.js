@@ -7,7 +7,7 @@ var markers = []
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener("DOMContentLoaded", (event) => {
   initMap(); // added
   fetchNeighborhoods();
   fetchCuisines();
@@ -31,9 +31,9 @@ fetchNeighborhoods = () => {
  * Set neighborhoods HTML.
  */
 fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
-  const select = document.getElementById('neighborhoods-select');
+  const select = document.getElementById("neighborhoods-select");
   neighborhoods.forEach(neighborhood => {
-    const option = document.createElement('option');
+    const option = document.createElement("option");
     option.innerHTML = neighborhood;
     option.value = neighborhood;
     select.append(option);
@@ -58,10 +58,10 @@ fetchCuisines = () => {
  * Set cuisines HTML.
  */
 fillCuisinesHTML = (cuisines = self.cuisines) => {
-  const select = document.getElementById('cuisines-select');
+  const select = document.getElementById("cuisines-select");
 
   cuisines.forEach(cuisine => {
-    const option = document.createElement('option');
+    const option = document.createElement("option");
     option.innerHTML = cuisine;
     option.value = cuisine;
     select.append(option);
@@ -72,18 +72,18 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
  * Initialize leaflet map, called from HTML.
  */
 initMap = () => {
-  self.newMap = L.map('map', {
+  self.newMap = L.map("map", {
         center: [40.722216, -73.987501],
         zoom: 12,
         scrollWheelZoom: false
       });
-  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-    mapboxToken: 'pk.eyJ1IjoibW9ub2RvbiIsImEiOiJjamp6c2Z1ZmUwZjdmM3F0eXRnM3lheG1xIn0.jTnqkoe53a-wtWF5XXKHBw',
+  L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}", {
+    mapboxToken: "pk.eyJ1IjoibW9ub2RvbiIsImEiOiJjamp6c2Z1ZmUwZjdmM3F0eXRnM3lheG1xIn0.jTnqkoe53a-wtWF5XXKHBw",
     maxZoom: 18,
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-      '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-      'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    id: 'mapbox.streets'
+    attribution: "Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors, " +
+      "<a href='https://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, " +
+      "Imagery © <a href='https://www.mapbox.com/'>Mapbox</a>",
+    id: "mapbox.streets"
   }).addTo(newMap);
 
   updateRestaurants();
@@ -93,7 +93,7 @@ initMap = () => {
     lat: 40.722216,
     lng: -73.987501
   };
-  self.map = new google.maps.Map(document.getElementById('map'), {
+  self.map = new google.maps.Map(document.getElementById("map"), {
     zoom: 12,
     center: loc,
     scrollwheel: false
@@ -105,8 +105,8 @@ initMap = () => {
  * Update page and map for current restaurants.
  */
 updateRestaurants = () => {
-  const cSelect = document.getElementById('cuisines-select');
-  const nSelect = document.getElementById('neighborhoods-select');
+  const cSelect = document.getElementById("cuisines-select");
+  const nSelect = document.getElementById("neighborhoods-select");
 
   const cIndex = cSelect.selectedIndex;
   const nIndex = nSelect.selectedIndex;
@@ -130,8 +130,8 @@ updateRestaurants = () => {
 resetRestaurants = (restaurants) => {
   // Remove all restaurants
   self.restaurants = [];
-  const ul = document.getElementById('restaurants-list');
-  ul.innerHTML = '';
+  const ul = document.getElementById("restaurants-list");
+  ul.innerHTML = "";
 
   // Remove all map markers
   if (self.markers) {
@@ -145,7 +145,7 @@ resetRestaurants = (restaurants) => {
  * Create all restaurants HTML and add them to the webpage.
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
-  const ul = document.getElementById('restaurants-list');
+  const ul = document.getElementById("restaurants-list");
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
@@ -156,33 +156,34 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
-  const li = document.createElement('li');
+  const li = document.createElement("li");
 
-  const image = document.createElement('img');
-  image.className = 'restaurant-images';
+  const image = document.createElement("img");
+  image.alt = "";
+  image.className = "restaurant-images";
   image.srcset = DBHelper.imageSmallSrcset(restaurant);
   image.sizes = "(max-width: 450px) 90vw, (min-width: 665px) 50vw, (min-width: 985px) 20vw";
   image.src = DBHelper.imageUrlForRestaurantLarge(restaurant);
   li.append(image);
 
-  const infoContainer = document.createElement('div');
-  infoContainer.className = 'info-container';
+  const infoContainer = document.createElement("div");
+  infoContainer.className = "info-container";
   li.append(infoContainer);
 
-  const name = document.createElement('h3');
+  const name = document.createElement("h3");
   name.innerHTML = restaurant.name;
   infoContainer.append(name);
 
-  const neighborhood = document.createElement('p');
+  const neighborhood = document.createElement("p");
   neighborhood.innerHTML = restaurant.neighborhood;
   infoContainer.append(neighborhood);
 
-  const address = document.createElement('p');
+  const address = document.createElement("p");
   address.innerHTML = restaurant.address;
   infoContainer.append(address);
 
-  const more = document.createElement('a');
-  more.innerHTML = 'View Details';
+  const more = document.createElement("a");
+  more.innerHTML = "View Details";
   more.href = DBHelper.urlForRestaurant(restaurant);
   infoContainer.append(more)
 
@@ -208,7 +209,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
-    google.maps.event.addListener(marker, 'click', () => {
+    google.maps.event.addListener(marker, "click", () => {
       window.location.href = marker.url
     });
     self.markers.push(marker);
